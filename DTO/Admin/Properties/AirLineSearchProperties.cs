@@ -6,6 +6,7 @@ namespace DTO.Admin.Properties
 {
    public class AirLineSearchProperties
     {
+        public string AirLineName { get; set; }
         public string FlightNumber { get; set; }
 
         public string AirLine { get; set; }
@@ -15,7 +16,7 @@ namespace DTO.Admin.Properties
 
        // public string To { get; set; }
 
-       // public DateTime FlightStartDateTime { get; set; }
+        //public DateTime FlightStartDateTime { get; set; }
 
        // public DateTime FlightToDateTime { get; set; }
 

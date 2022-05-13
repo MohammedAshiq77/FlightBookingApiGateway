@@ -14,4 +14,14 @@ namespace DTO.User.Response
         public int ErrorStatus { get; set; }
         public string message { get; set; }
     }
+    public class AirlineTicketBookingCancelResponse
+    {
+        public bool isDataAvailable { get; set; }
+        public AirlineTicketBookingCancelResponse()
+        {
+            isDataAvailable = false;
+        }
+        public int ErrorStatus { get; set; }
+        public string message { get; set; }
+    }
 }

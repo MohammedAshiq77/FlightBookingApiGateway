@@ -1,28 +1,31 @@
-﻿using System;
+﻿using DTO.Admin.Properties;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace DTO.Admin.Response
 {
-  public  class AirlineBlockAndUnblockResponse
+   public class PostCouponCodeResponse
     {
         public bool isDataAvailable { get; set; }
-        public AirlineBlockAndUnblockResponse()
+        public PostCouponCodeResponse()
         {
             isDataAvailable = false;
         }
-        public string message { get; set; }
         public int ErrorStatus { get; set; }
+        public string message { get; set; }
     }
 
-    public class CouponActiveandDeactiveResponse
+    public class GetcodeResponse
     {
         public bool isDataAvailable { get; set; }
-        public CouponActiveandDeactiveResponse()
+        public GetcodeResponse()
         {
             isDataAvailable = false;
         }
-        public string message { get; set; }
         public int ErrorStatus { get; set; }
+        public string message { get; set; }
+
+        public List<CouponCodeDtlsProperties> couponCodeDtlsPropertiesList { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using DTO.Admin.Properties;
 using DTO.Admin.Request;
 using DTO.Admin.Response;
+using Helper;
 using MiNET.Net;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace DataAcess.DataSource.Admin
 {
     public class AdminDataSource
     {
+        Connection con = new Connection();
         public static Random random = new Random();
 
         public static string GetRandomPNR()
@@ -27,22 +29,19 @@ namespace DataAcess.DataSource.Admin
         {
 
             AirLineRegisterResponse airLineRegisterResponse = new AirLineRegisterResponse();
-           // AirLineInventoryResponse airLineInvResponse = new AirLineInventoryResponse();
-            //AirLineInventoryRequest airLineInvReq = new AirLineInventoryRequest();
+           
             var AirCode = GetRandomPNR();
             var FlyCode = GetRandomPNR();
             int flag = 0;
             try
             {
-                //SqlConnection sqlCon = null;
+               
 
-                string connectionString = "Server=JRDOTNETFSECO-2;Database=AirlineTickecting;Trusted_Connection=False;MultipleActiveResultSets=true;user id=sa;password=pass@word1;";
+                Connection con = new Connection();
 
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
+                SqlCommand sql_cmnd = new SqlCommand();
 
-                    SqlCommand sql_cmnd = new SqlCommand();
-                    sql_cmnd.Connection = sqlCon;
+                    sql_cmnd = Connection.con.CreateCommand();
                     sql_cmnd.CommandText = "sp_FlightRegistration";
                     sql_cmnd.CommandType = CommandType.StoredProcedure;
                     sql_cmnd.Parameters.Add("@AirlineName", SqlDbType.NVarChar).Value = airLineRegisterRequest.AirlineName;
@@ -54,9 +53,9 @@ namespace DataAcess.DataSource.Admin
                     sql_cmnd.Parameters.Add("@MaxSeat", SqlDbType.Int).Value = airLineRegisterRequest.MaxSeat;
                     sql_cmnd.Parameters.Add("@StartTime", SqlDbType.DateTime).Value = airLineRegisterRequest.StartTime;
                     sql_cmnd.Parameters.Add("@Message", SqlDbType.NVarChar, 32000).Direction = ParameterDirection.Output;
-                    sqlCon.Open();
+                    
                     sql_cmnd.ExecuteNonQuery();
-                    sqlCon.Close();
+                    
                     string result = (string)sql_cmnd.Parameters["@Message"].Value;
                     string[] ab = result.Split("^");
                     if (ab[0] == "0")
@@ -73,7 +72,7 @@ namespace DataAcess.DataSource.Admin
                     }
 
 
-                }
+                
             }
             catch (Exception ex)
             {
@@ -89,30 +88,17 @@ namespace DataAcess.DataSource.Admin
             AirLineInventoryResponse airLineInventoryResponse = new AirLineInventoryResponse();
             try
             {
-                //SqlConnection sqlCon = null;
+                Connection con = new Connection();
+                SqlCommand sql_cmnd = new SqlCommand();
 
-                string connectionString = "Server=JRDOTNETFSECO-2;Database=AirlineTickecting;Trusted_Connection=False;MultipleActiveResultSets=true;user id=sa;password=pass@word1;";
-
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-
-                    SqlCommand sql_cmnd = new SqlCommand();
-                   
-                    sql_cmnd.Connection = sqlCon;
-                   
-
-                    
                     string strQuery = "update InventoryMastertb set FromPlace='" + airLineInventoryRequest.From+ "',ToPlace='" + airLineInventoryRequest.To + "'  ,DepartureTime=convert(datetime2 ,'" + airLineInventoryRequest.FlightStartDateTime + "',103)  ,ArrivalTime=convert(datetime2 ,'" + airLineInventoryRequest.FlightToDateTime + "',103),TotalBusSeats='" + airLineInventoryRequest.TotalBusinessSeats + "',TotalEcoSeats='" + airLineInventoryRequest.TotalNonBusinessSeats + "',Rows='" + airLineInventoryRequest.FlightSeatRow + "'    where FlightID='" + airLineInventoryRequest.FlightNumber + "' and  AirLineCode='" + airLineInventoryRequest.AirLineId + "'";
-                   
-                    sql_cmnd = new SqlCommand(strQuery, sqlCon);
-                   
-                    sqlCon.Open();
-                    int i=sql_cmnd.ExecuteNonQuery();
-                     sqlCon.Close();
-
+                    sql_cmnd = Connection.con.CreateCommand();
+                    sql_cmnd.CommandText = strQuery;
+                    sql_cmnd.CommandType = CommandType.Text;
+                    int i = sql_cmnd.ExecuteNonQuery();
                        if (i > 0)
                     {
-                        airLineInventoryResponse.message = "Successfully Login User";
+                        airLineInventoryResponse.message = "Inventory Updated Successfully";
                         airLineInventoryResponse.ErrorStatus = 0;
                         airLineInventoryResponse.isDataAvailable = true;
                     }
@@ -125,7 +111,7 @@ namespace DataAcess.DataSource.Admin
                     }
 
 
-                }
+              
             }
             catch (Exception ex)
             {
@@ -144,39 +130,28 @@ namespace DataAcess.DataSource.Admin
 
             try
             {
-                FlightDetailsTableProperty flightDetailsTableProperty = new FlightDetailsTableProperty();
-                //SqlConnection sqlCon = null;
+                
                 var searchList = new List<FlightDetailsTableProperty>();
-
-                string connectionString = "Server=JRDOTNETFSECO-2;Database=AirlineTickecting;Trusted_Connection=False;MultipleActiveResultSets=true;user id=sa;password=pass@word1;";
-
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-
-                    //SqlCommand sql_cmnd = new SqlCommand();
-
-                    //sql_cmnd.Connection = sqlCon;
-
-
-
-                    string strQuery = "select FlightID,AirLineCode,AirplanType,BusinessFare,EconnmyFare,MaxSeat,Status from FlightMaster";
-
-                    SqlCommand command = new SqlCommand(strQuery, sqlCon);
-                    sqlCon.Open();
-
-                    SqlDataReader reader = command.ExecuteReader();
-
-                    if (reader.HasRows)
+                Connection con = new Connection();
+                SqlCommand sql_cmnd = new SqlCommand();
+                    string strQuery = "select a.AirLineName,f.FlightID,f.AirLineCode,f.AirplanType,f.BusinessFare,f.EconnmyFare,f.MaxSeat,f.Status from FlightMaster as f,AirLineMaster as a where f.AirLineCode = a.AirLineCode";
+                sql_cmnd = Connection.con.CreateCommand();
+                sql_cmnd.CommandText = strQuery;
+                sql_cmnd.CommandType = CommandType.Text;
+                SqlDataReader reader = sql_cmnd.ExecuteReader();
+                if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
-                            flightDetailsTableProperty.FlightID = (string)reader[0];
-                            flightDetailsTableProperty.AirLineCode = (string)reader[1];
-                            flightDetailsTableProperty.AirplanType = (string)reader[2];
-                            flightDetailsTableProperty.BusinessFare = (decimal)reader[3];
-                            flightDetailsTableProperty.EconnmyFare = (decimal)reader[4];
-                            flightDetailsTableProperty.MaxSeat = (int)reader[5];
-                            flightDetailsTableProperty.Status = (int)reader[6];
+                            FlightDetailsTableProperty flightDetailsTableProperty = new FlightDetailsTableProperty();
+                            flightDetailsTableProperty.AirLineName = (string)reader[0];
+                            flightDetailsTableProperty.FlightID = (string)reader[1];
+                            flightDetailsTableProperty.AirLineCode = (string)reader[2];
+                            flightDetailsTableProperty.AirplanType = (string)reader[3];
+                            flightDetailsTableProperty.BusinessFare = (decimal)reader[4];
+                            flightDetailsTableProperty.EconnmyFare = (decimal)reader[5];
+                            flightDetailsTableProperty.MaxSeat = (int)reader[6];
+                            flightDetailsTableProperty.Status = (int)reader[7];
 
 
 
@@ -206,7 +181,7 @@ namespace DataAcess.DataSource.Admin
                     reader.Close();
 
 
-                }
+               
             }
             catch (Exception ex)
             {
@@ -225,31 +200,14 @@ namespace DataAcess.DataSource.Admin
             {
                 //SqlConnection sqlCon = null;
 
-                string connectionString = "Server=JRDOTNETFSECO-2;Database=AirlineTickecting;Trusted_Connection=False;MultipleActiveResultSets=true;user id=sa;password=pass@word1;";
-
-                using (SqlConnection sqlCon = new SqlConnection(connectionString))
-                {
-
-                    SqlCommand sql_cmnd = new SqlCommand();
-
-                    sql_cmnd.Connection = sqlCon;
-
-
-                    //string strQuery = "INSERT INTO Student(Sid,st_name) VALUES (@id,@name)";
-
-                   //string strQuery = "update InventoryMastertb set FromPlace='" + airLineInventoryRequest.From + "',ToPlace='" + airLineInventoryRequest.To + "'  ,DepartureTime=convert(datetime2 ,'" + airLineInventoryRequest.FlightStartDateTime + "',103)  ,ArrivalTime=convert(datetime2 ,'" + airLineInventoryRequest.FlightToDateTime + "',103),TotalBusSeats='" + airLineInventoryRequest.TotalBusinessSeats + "',TotalEcoSeats='" + airLineInventoryRequest.TotalNonBusinessSeats + "',Meal='" + airLineInventoryRequest.Meal + "'  ,Rows='" + airLineInventoryRequest.FlightSeatRow + "'    where FlightID='" + airLineInventoryRequest.FlightNumber + "' and  AirLineCode='" + airLineInventoryRequest.AirLineId + "'";
+                Connection con = new Connection();
+                SqlCommand sql_cmnd = new SqlCommand();
                     string strQuery = "update FlightMaster set Status='" + airlineBlockAndUnblockRequest.status + "'  where FlightID='" + airlineBlockAndUnblockRequest.FlightNumber + "' and  AirLineCode='" + airlineBlockAndUnblockRequest.AirlinCode + "'";
-
-                    sql_cmnd = new SqlCommand(strQuery, sqlCon);
-                   
-
-                    sqlCon.Open();
-                    int i = sql_cmnd.ExecuteNonQuery();
-                    //int j = (int)sql_cmnd1.ExecuteScalar();
-                    sqlCon.Close();
-
-                 
-                    if (i > 0)
+                sql_cmnd = Connection.con.CreateCommand();
+                sql_cmnd.CommandText = strQuery;
+                sql_cmnd.CommandType = CommandType.Text;
+                int i = sql_cmnd.ExecuteNonQuery();
+                if (i > 0)
                     {
                         airlineBlockAndUnblockResponse.message = "Success";
                         airlineBlockAndUnblockResponse.ErrorStatus = 0;
@@ -264,7 +222,7 @@ namespace DataAcess.DataSource.Admin
                     }
 
 
-                }
+               
             }
             catch (Exception ex)
             {
@@ -276,9 +234,166 @@ namespace DataAcess.DataSource.Admin
             return airlineBlockAndUnblockResponse;
         }
 
+        public PostCouponCodeResponse AddCoupon(AirlineCouponCodeRequest airlineCouponCodeRequest)
+        {
+            PostCouponCodeResponse userRegResponse = new PostCouponCodeResponse();
+
+            int flag = 0;
+            try
+            {
+                Connection con = new Connection();
+
+                SqlCommand sql_cmnd = new SqlCommand();
+
+                sql_cmnd = Connection.con.CreateCommand();
+ 
+                    sql_cmnd.CommandText = "sp_Discount";
+                    sql_cmnd.CommandType = CommandType.StoredProcedure;
+                    sql_cmnd.Parameters.Add("@CouponId", SqlDbType.Int).Value = airlineCouponCodeRequest.CouponId;
+                    sql_cmnd.Parameters.Add("@CouponCode", SqlDbType.NVarChar).Value = airlineCouponCodeRequest.CouponCode;
+                    sql_cmnd.Parameters.Add("@CouponValue", SqlDbType.Int).Value = airlineCouponCodeRequest.Couponvalue;
+                    sql_cmnd.Parameters.Add("@Couponvalidity", SqlDbType.Date).Value = airlineCouponCodeRequest.CouponValidty;
+                    sql_cmnd.Parameters.Add("@Message", SqlDbType.NVarChar, 32000).Direction = ParameterDirection.Output;
+                     sql_cmnd.ExecuteNonQuery();
+                    string result = (string)sql_cmnd.Parameters["@Message"].Value;
+                    string[] ab = result.Split("^");
+                    if (ab[0] == "0")
+                    {
+                        userRegResponse.message = "Successfully Generated";
+                        userRegResponse.ErrorStatus = 0;
+                        userRegResponse.isDataAvailable = true;
+                    }
+                    else
+                    {
+                        userRegResponse.message = "Contact IT";
+                        userRegResponse.ErrorStatus = 1;
+                        userRegResponse.isDataAvailable = false;
+                    }
+
+
+                
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                //Display Error message
+            }
+            return userRegResponse;
+        }
 
 
 
 
+        public GetcodeResponse GetCouponDtls()
+        {
+            GetcodeResponse getcodeResponse = new GetcodeResponse();
+
+
+            try
+            {
+                var searchList = new List<CouponCodeDtlsProperties>();
+                Connection con = new Connection();
+                SqlCommand sql_cmnd = new SqlCommand();
+                    string strQuery = "select CouponId,CouponCode,CouponValue,Status from DiscountCoupons";
+                sql_cmnd = Connection.con.CreateCommand();
+                sql_cmnd.CommandText = strQuery;
+                sql_cmnd.CommandType = CommandType.Text;
+                SqlDataReader reader = sql_cmnd.ExecuteReader();
+                if (reader.HasRows)
+                    
+                       
+
+                            while (reader.Read())
+                            {
+                            CouponCodeDtlsProperties couponCodeDtlsProperties = new CouponCodeDtlsProperties();
+
+                            couponCodeDtlsProperties.CouponId = (int)reader[0];
+                            couponCodeDtlsProperties.CouponCode = (string)reader[1];
+                            couponCodeDtlsProperties.Couponvalue = (int)reader[2];
+                            couponCodeDtlsProperties.Status = (int)reader[3];
+                            searchList.Add(couponCodeDtlsProperties);
+
+                        }
+                             
+
+                        
+
+
+
+                    
+                    if (searchList.Count > 0)
+                    {
+                        getcodeResponse.couponCodeDtlsPropertiesList = searchList;
+
+                        getcodeResponse.isDataAvailable = true;
+                        getcodeResponse.message = "Sucess";
+                    }
+
+                    else
+                    {
+                        getcodeResponse.message = "Contact IT";
+
+                        getcodeResponse.isDataAvailable = false;
+
+                        getcodeResponse.message = "Fail";
+                    }
+
+                    reader.Close();
+
+
+               
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                //Display Error message
+            }
+
+
+            return getcodeResponse;
+        }
+
+        public CouponActiveandDeactiveResponse ActivateAndDeactivate(CouponCodeActivateAndDeactivateRequest codeActivateAndDeactivateRequest)
+        {
+            CouponActiveandDeactiveResponse couponActiveandDeactiveResponse = new CouponActiveandDeactiveResponse();
+            try
+            {
+
+
+                Connection con = new Connection();
+                SqlCommand sql_cmnd = new SqlCommand();
+               
+                      string strQuery = "update DiscountCoupons set Status='" + codeActivateAndDeactivateRequest.Status + "'  where CouponId='" + codeActivateAndDeactivateRequest.CouponId + "'";
+                sql_cmnd = Connection.con.CreateCommand();
+                sql_cmnd.CommandText = strQuery;
+                sql_cmnd.CommandType = CommandType.Text;
+                int i = sql_cmnd.ExecuteNonQuery();
+
+                if (i > 0)
+                    {
+                        couponActiveandDeactiveResponse.message = "Success";
+                        couponActiveandDeactiveResponse.ErrorStatus = 0;
+                        couponActiveandDeactiveResponse.isDataAvailable = true;
+                    }
+
+                    else
+                    {
+                        couponActiveandDeactiveResponse.message = "Contact IT";
+                        couponActiveandDeactiveResponse.ErrorStatus = 1;
+                        couponActiveandDeactiveResponse.isDataAvailable = false;
+                    }
+
+
+                
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+                //Display Error message
+            }
+
+
+            return couponActiveandDeactiveResponse;
+        }
     }
 }

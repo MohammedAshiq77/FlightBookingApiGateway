@@ -15,96 +15,96 @@
       "SwaggerKey": "airlines"
 
     },
-    //{
+    {
 
-    //  "DownstreamPathTemplate": "/api/Airline/Inventory",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "24188"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Airline/Inventory",
-    //  "UpstreamHttpMethod": [ "GET", "POST" ],
-    //  "SwaggerKey": "airlines"
+      "DownstreamPathTemplate": "/api/AdminController/AddAirLineInventory",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "24188"
+        }
+      ],
+      "UpstreamPathTemplate": "/AdminController/AddAirLineInventory",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "airlines"
 
-    //},
-    //{
+    },
+    {
 
-    //  "DownstreamPathTemplate": "/api/Airline/Search/{search}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "24188"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Airline/Search/{search}",
-    //  "UpstreamHttpMethod": [ "GET", "POST" ],
-    //  "SwaggerKey": "airlines"
+      "DownstreamPathTemplate": "/api/AdminController/GetFlightDetails",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "24188"
+        }
+      ],
+      "UpstreamPathTemplate": "/AdminController/GetFlightDetails",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "airlines"
 
-    //},
-    //{
+    },
+    {
 
-    //  "DownstreamPathTemplate": "/api/Airline/BookingTicket",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "24188"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Airline/BookingTicket",
-    //  "UpstreamHttpMethod": [ "GET", "POST" ],
-    //  "SwaggerKey": "airlines"
+      "DownstreamPathTemplate": "/api/AdminController/BlockAndUnblockAirline",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "24188"
+        }
+      ],
+      "UpstreamPathTemplate": "/AdminController/BlockAndUnblockAirline",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "airlines"
 
-    //},
-    //{
+    },
+    {
 
-    //  "DownstreamPathTemplate": "/api/Airline/GetTicketDetails/{pnr}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "24188"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Airline/GetTicketDetails/{pnr}",
-    //  "UpstreamHttpMethod": [ "GET", "POST" ],
-    //  "SwaggerKey": "airlines"
+      "DownstreamPathTemplate": "/api/AdminController/AddCoupon",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "24188"
+        }
+      ],
+      "UpstreamPathTemplate": "/AdminController/AddCoupon",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "airlines"
 
-    //},
-    //{
+    },
+    {
 
-    //  "DownstreamPathTemplate": "/api/Airline/GetBookedTicketHis/{emailId}",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "24188"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Airline/GetBookedTicketHis/{emailId}",
-    //  "UpstreamHttpMethod": [ "GET", "POST" ],
-    //  "SwaggerKey": "airlines"
+      "DownstreamPathTemplate": "/api/AdminController/GetCouponDtls",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "24188"
+        }
+      ],
+      "UpstreamPathTemplate": "/AdminController/GetCouponDtls",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "airlines"
 
-    //},
-    //{
+    },
+    {
 
-    //  "DownstreamPathTemplate": "/api/Airline/AddDiscount",
-    //  "DownstreamScheme": "http",
-    //  "DownstreamHostAndPorts": [
-    //    {
-    //      "Host": "localhost",
-    //      "Port": "24188"
-    //    }
-    //  ],
-    //  "UpstreamPathTemplate": "/Airline/AddDiscount",
-    //  "UpstreamHttpMethod": [ "GET", "POST" ],
-    //  "SwaggerKey": "airlines"
+      "DownstreamPathTemplate": "/api/AdminController/ActivateNBlock",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "24188"
+        }
+      ],
+      "UpstreamPathTemplate": "/AdminController/ActivateNBlock",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "airlines"
 
-    //},
+    },
     //{
 
     //  "DownstreamPathTemplate": "/api/Airline/GetDiscountDetails",
@@ -167,8 +167,82 @@
       "UpstreamHttpMethod": [ "GET", "POST" ],
       "SwaggerKey": "user"
 
-    }
+    },
+    {
 
+      "DownstreamPathTemplate": "/api/UserController/FlightSearch",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "59329"
+        }
+      ],
+      "UpstreamPathTemplate": "/UserController/FlightSearch",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "user"
+
+    },
+    {
+
+      "DownstreamPathTemplate": "/api/UserController/AirlineTicketBooking",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "59329"
+        }
+      ],
+      "UpstreamPathTemplate": "/UserController/AirlineTicketBooking",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "user"
+
+    },
+    {
+
+      "DownstreamPathTemplate": "/api/UserController/GetTicketDetails",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "59329"
+        }
+      ],
+      "UpstreamPathTemplate": "/UserController/GetTicketDetails",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "user"
+
+    },
+    {
+
+      "DownstreamPathTemplate": "/api/UserController/GetTicketDetailsHis",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "59329"
+        }
+      ],
+      "UpstreamPathTemplate": "/UserController/GetTicketDetailsHis",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "SwaggerKey": "user"
+
+    },
+    {
+
+      "DownstreamPathTemplate": "/api/UserController/CancelBookedTicket",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "59329"
+        }
+      ],
+      "UpstreamPathTemplate": "/UserController/CancelBookedTicket",
+      "UpstreamHttpMethod": [ "POST" ],
+      "SwaggerKey": "user"
+
+    }
 
   ],
   "SwaggerEndPoints": [

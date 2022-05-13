@@ -22,8 +22,18 @@ namespace FlightBookingApiGateway
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        string MyAllowspecificOrigins = "_myAllowSpecificOrgins";
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                name: "MyAllowSpecificOrigins",
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
             services.AddOcelot();
             services.AddSwaggerGen();
             services.AddControllers();
@@ -59,6 +69,7 @@ namespace FlightBookingApiGateway
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
             });
+            app.UseCors("MyAllowSpecificOrigins");
             //ocelot
             await app.UseOcelot();
         }

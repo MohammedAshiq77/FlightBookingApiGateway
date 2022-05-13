@@ -18,6 +18,8 @@ namespace DTO.User.Property
         public int SeatNumber { get; set; }
 
         public DateTime CreateDate { get; set; }
+
+        public int type { get; set; }
         public int Flag { get; set; }
     }
 }

@@ -71,6 +71,7 @@ namespace DataAcess.BLL.UserRegistration
                 }
                 else
                 {
+                    response.Data = userLoginResponse;
                     response.apiStatus = ApiStatusConstants.COMPLETED;
                     response.responseMsg = "No Data Found";
                 }
@@ -91,13 +92,16 @@ namespace DataAcess.BLL.UserRegistration
             Response<AirlineTicketBookingResponse> response = new Response<AirlineTicketBookingResponse>();
             try
             {
-              //  airlineTicketBookingResponse = new UserRegistrationDataSource().Login(airLineTicketBookingRequest);
+                airlineTicketBookingResponse = new UserRegistrationDataSource().AirTicketBooking(airLineTicketBookingRequest);
                 if (airlineTicketBookingResponse.ErrorStatus == 0)
                 {
                     response.Data = airlineTicketBookingResponse;
                     response.status = ResponseTypeContants.SUCCESS;
                     response.apiStatus = ApiStatusConstants.COMPLETED;
                     response.responseMsg = ResponseTypeContants.SUCCESS;
+                   
+
+
                 }
                 else
                 {
@@ -205,6 +209,35 @@ namespace DataAcess.BLL.UserRegistration
             return response;
         }
 
+        public Response<AirlineTicketBookingCancelResponse> CancelBookedTicket(GetBookedTicketDTRequest getBookedTicketDTRequest)
+        {
+            AirlineTicketBookingCancelResponse airlineTicketBookingCancelResponse = new AirlineTicketBookingCancelResponse();
+            Response<AirlineTicketBookingCancelResponse> response = new Response<AirlineTicketBookingCancelResponse>();
+            try
+            {
+                airlineTicketBookingCancelResponse = new UserRegistrationDataSource().CancelBookedTicket(getBookedTicketDTRequest);
+                if (airlineTicketBookingCancelResponse.isDataAvailable == true)
+                {
+                    response.Data = airlineTicketBookingCancelResponse;
+                    response.status = ResponseTypeContants.SUCCESS;
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = ResponseTypeContants.SUCCESS;
+                }
+                else
+                {
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = "No Data Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception exception = ex;
+                response.status = "exception";
+                response.responseMsg = "internal server error";
+                response.SetExceptionError(ex.Message);
+            }
+            return response;
+        }
 
     }
 

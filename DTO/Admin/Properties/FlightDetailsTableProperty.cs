@@ -6,6 +6,7 @@ namespace DTO.Admin.Properties
 {
    public class FlightDetailsTableProperty
     {
+        public string AirLineName { get; set; }
         public string FlightID { get; set; }
 
         public string AirLineCode { get; set; }

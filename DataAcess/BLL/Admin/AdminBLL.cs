@@ -143,6 +143,96 @@ namespace DataAcess.BLL.Admin
             return response;
         }
 
+        public Response<PostCouponCodeResponse> Addcoupon(AirlineCouponCodeRequest airlineCouponCodeRequest)
+        {
+            PostCouponCodeResponse postCouponCodeResponse = new PostCouponCodeResponse();
+            Response<PostCouponCodeResponse> response = new Response<PostCouponCodeResponse>();
+            try
+            {
+                postCouponCodeResponse = new AdminDataSource().AddCoupon(airlineCouponCodeRequest);
+                if (postCouponCodeResponse.ErrorStatus == 0)
+                {
+                    response.Data = postCouponCodeResponse;
+                    response.status = ResponseTypeContants.SUCCESS;
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = ResponseTypeContants.SUCCESS;
+                }
+                else
+                {
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = "No Data Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception exception = ex;
+                response.status = "exception";
+                response.responseMsg = "internal server error";
+                response.SetExceptionError(ex.Message);
+            }
+            return response;
+        }
+
+        public Response<GetcodeResponse> GetCouponDtls()
+        {
+            GetcodeResponse flightTableDetailsResponse = new GetcodeResponse();
+            Response<GetcodeResponse> response = new Response<GetcodeResponse>();
+            try
+            {
+                flightTableDetailsResponse = new AdminDataSource().GetCouponDtls();
+                if (flightTableDetailsResponse.isDataAvailable == true)
+                {
+                    response.Data = flightTableDetailsResponse;
+                    response.status = ResponseTypeContants.SUCCESS;
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = ResponseTypeContants.SUCCESS;
+                }
+                else
+                {
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = "No Data Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception exception = ex;
+                response.status = "exception";
+                response.responseMsg = "internal server error";
+                response.SetExceptionError(ex.Message);
+            }
+            return response;
+        }
+
+        public Response<CouponActiveandDeactiveResponse> ActivateAndDeactivate(CouponCodeActivateAndDeactivateRequest codeActivateAndDeactivateRequest)
+        {
+            CouponActiveandDeactiveResponse couponActiveandDeactiveResponse = new CouponActiveandDeactiveResponse();
+            Response<CouponActiveandDeactiveResponse> response = new Response<CouponActiveandDeactiveResponse>();
+            try
+            {
+                couponActiveandDeactiveResponse = new AdminDataSource().ActivateAndDeactivate(codeActivateAndDeactivateRequest);
+                if (couponActiveandDeactiveResponse.ErrorStatus == 0)
+                {
+                    response.Data = couponActiveandDeactiveResponse;
+                    response.status = ResponseTypeContants.SUCCESS;
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = ResponseTypeContants.SUCCESS;
+                }
+                else
+                {
+                    response.apiStatus = ApiStatusConstants.COMPLETED;
+                    response.responseMsg = "No Data Found";
+                }
+            }
+            catch (Exception ex)
+            {
+                Exception exception = ex;
+                response.status = "exception";
+                response.responseMsg = "internal server error";
+                response.SetExceptionError(ex.Message);
+            }
+            return response;
+        }
+
 
     }
 }

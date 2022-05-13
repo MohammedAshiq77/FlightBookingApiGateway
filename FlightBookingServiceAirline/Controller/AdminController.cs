@@ -56,6 +56,7 @@ namespace FlightBookingServiceAirline.Controller
 
         }
 
+
         [HttpPost("BlockAndUnblockAirline")]
         public ActionResult<Response<AirlineBlockAndUnblockResponse>> BlockAndUnblockAirline([FromBody] AirlineBlockAndUnblockRequest airlineBlockAndUnblockRequest)
         {
@@ -69,6 +70,58 @@ namespace FlightBookingServiceAirline.Controller
             }
 
 
+        }
+
+
+        [HttpPost("AddCoupon")]
+        public ActionResult<Response<PostCouponCodeResponse>> AddCoupon([FromBody] AirlineCouponCodeRequest airlineCouponCodeRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                return AdminBLL.Instance.Addcoupon(airlineCouponCodeRequest);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+
+        }
+
+        [HttpGet("GetCouponDtls")]
+        public ActionResult<Response<GetcodeResponse>> GetCouponDtls()
+        {
+            if (ModelState.IsValid)
+            {
+                return AdminBLL.Instance.GetCouponDtls();
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+
+        }
+
+        [HttpPost("ActivateNBlock")]
+        public ActionResult<Response<CouponActiveandDeactiveResponse>> ActivateNBlock([FromBody] CouponCodeActivateAndDeactivateRequest codeActivateAndDeactivateRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                return AdminBLL.Instance.ActivateAndDeactivate(codeActivateAndDeactivateRequest);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+
+
+        }
+
+        [HttpGet, ActionName("Test")]
+        public string Test()
+        {
+            return "hello API.";
         }
     }
 }

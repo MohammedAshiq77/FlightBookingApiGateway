@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DTO.Admin.Request;
 using DTO.Admin.Response;
+using Microsoft.Extensions.Configuration;
 
 namespace FlightBookingServiceUser.Controller
 {
@@ -17,7 +18,11 @@ namespace FlightBookingServiceUser.Controller
     [Produces("application/json")]
     [Route("api/UserController")]
     public class UserController : ControllerBase
+
     {
+        //checking
+        public readonly IConfiguration _configuration; 
+        public UserController(IConfiguration configuration) { _configuration = configuration; }
         [HttpPost("UserRegistrations")]
         public ActionResult<Response<UserRegistrationResponse>> UserRegistrations([FromBody] UserRegistrationRequest request)
         {
@@ -95,6 +100,24 @@ namespace FlightBookingServiceUser.Controller
             {
                 return BadRequest(ModelState);
             }
+        }
+
+        [HttpPost("CancelBookedTicket")]
+        public ActionResult<Response<AirlineTicketBookingCancelResponse>> CancelBookedTicket([FromBody] GetBookedTicketDTRequest getBookedTicketDTRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                return UserRegistration.Instance.CancelBookedTicket(getBookedTicketDTRequest);
+            }
+            else
+            {
+                return BadRequest(ModelState);
+            }
+        }
+        [HttpGet, ActionName("Test")]
+        public string Test()
+        {
+            return "hello API.";
         }
 
     }
